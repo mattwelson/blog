@@ -2,10 +2,11 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import { renderStatic } from 'glamor/server'
+import getposts from './util/getposts'
 
 export default {
   getRoutes: async () => {
-    const { data: posts } = await axios.get('https://jsonplaceholder.typicode.com/posts')
+    const posts = await getposts()
     return [
       {
         path: '/',
@@ -19,7 +20,7 @@ export default {
           posts,
         }),
         children: posts.map(post => ({
-          path: `/post/${post.id}`,
+          path: `/post/${post.slug}`,
           getProps: () => ({
             post,
           }),
